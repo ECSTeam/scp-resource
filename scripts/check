@@ -6,8 +6,9 @@ files=$(ssh -o StrictHostKeyChecking=no ${user}@${host} "ls -lrt ${glob}")
 files=$(echo "${files}" | awk '/^\-/{print $(NF)}')
 
 if [[ $version != null ]]; then
-	numfiles=$(echo ${files} | wc -l | xargs)
-	files=$(echo "${files}" | grep -A ${numfiles} "^${version}$" | tail -n +1)
+	version=$(basename ${version})
+	numfiles=$(echo "${files}" | wc -l | xargs)
+	files=$(echo "${files}" | grep -A ${numfiles} ".*${version}$" | tail -n +2)
 else
 	files=$(echo "${files}" | tail -n -1)
 fi
