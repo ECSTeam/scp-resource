@@ -1,5 +1,6 @@
 #!/bin/bash
 
+set -x
 source /opt/resource/common.sh
 
 files=$(ssh -o StrictHostKeyChecking=no ${user}@${host} "ls -lrt ${glob}")
