@@ -1,0 +1,16 @@
+#!/bin/bash
+
+source common.#!/bin/sh
+workdir=$1
+
+cd ${workdir}
+
+#overwrite common glob
+glob=$(echo ${input_json} | jq -r '.params.glob')
+dest=$(echo ${input_json} | jq -r '.params.destdir')
+
+latest_file=$(ls -l ${glob} | awk '/^\-/{print $(NF)}' | head -n1)
+
+scp -o StrictHostKeyChecking=no ${glob} ${user}@${host}:${dest}/
+
+echo "{}" | jq --arg latest ${latest_file} '. |= .+ {version:{path:$latest}, metadata:[]}'

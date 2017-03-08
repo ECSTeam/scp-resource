@@ -1,0 +1,18 @@
+#!/bin/bash
+
+source common.sh
+
+files=$(ssh -o StrictHostKeyChecking=no ${user}@${host} "ls -lrt ${glob}")
+files=$(echo ${files} | awk '/^\-/{print $(NF)}')
+
+if [ ! -z "${version}" ]; then
+	numfiles=$(echo ${files} | wc -l | xargs)
+	files=$(echo ${files} | grep -A ${numfiles} "^${version}$" | tail -n +1)
+fi
+
+json="[]"
+for file in $(echo $files | awk '/^\-/{print $(NF)}'); do
+	json=$(echo $json | jq -r ". |= .+ [{ path: \"$file\"}]")
+done
+
+echo "${json}"

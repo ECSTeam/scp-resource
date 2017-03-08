@@ -1,0 +1,11 @@
+#!/bin/bash
+
+source common.sh
+
+outdir=$1
+
+cd $outdir
+
+scp -o StrictHostKeyChecking=no ${user}@${host}:${version} .
+
+echo "{}" | jq --arg path ${version} '. |= .+ {version:{path: $path}, metadata:[]}'
