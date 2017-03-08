@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source common.#!/bin/sh
+source /opt/resource/common.sh
 workdir=$1
 
 cd ${workdir}

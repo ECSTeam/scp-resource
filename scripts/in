@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source common.sh
+source /opt/resource/common.sh
 
 outdir=$1
 
