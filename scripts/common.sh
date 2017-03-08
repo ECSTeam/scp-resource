@@ -4,7 +4,7 @@ echo "${input_json}" > /tmp/stdin
 
 host=$(echo ${input_json} | jq -r '.source.host')
 user=$(echo ${input_json} | jq -r '.source.user')
-pkey="$(echo ${input_json} | jq -r '.source.private_key')"
+pkey="$(echo ${input_json} | jq -r '.source.private_key' | sed -e 's/\\n/\n/g')"
 glob=$(echo ${input_json} | jq -r '.source.glob')
 
 version=$(echo ${input_json} | jq -r '.version')
@@ -13,7 +13,7 @@ version=$(echo ${input_json} | jq -r '.version')
 keyfile=$(mktemp)
 
 # Make sure to wrap in quotes, or the newlines (which are necessary) are swallowed
-pkey=$(echo "${pkey}" | sed -e 's/-----BEGIN RSA PRIVATE KEY----- \(.*\) -----END RSA PRIVATE KEY-----/\1/' | tr ' ' '\n')
+pkey=$(echo ${pkey} | sed -e 's/-----BEGIN RSA PRIVATE KEY----- \(.*\) -----END RSA PRIVATE KEY-----/\1/' | tr ' ' '\n')
 echo "-----BEGIN RSA PRIVATE KEY-----" > ${keyfile}
 echo "${pkey}" >> ${keyfile}
 echo "-----END RSA PRIVATE KEY-----" >> ${keyfile}
