@@ -15,4 +15,4 @@ for file in $(echo $files); do
 	json=$(echo $json | jq -r ". |= .+ [{ path: \"$file\"}]")
 done
 
-echo "${json}"
+echo "${json}" >&3
