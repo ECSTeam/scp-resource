@@ -8,6 +8,8 @@ files=$(echo "${files}" | awk '/^\-/{print $(NF)}')
 if [[ $version != null ]]; then
 	numfiles=$(echo ${files} | wc -l | xargs)
 	files=$(echo "${files}" | grep -A ${numfiles} "^${version}$" | tail -n +1)
+else
+	files=$(echo "${files}" | tail -n -1)
 fi
 
 json="[]"
