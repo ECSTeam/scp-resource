@@ -5,13 +5,13 @@ source common.sh
 files=$(ssh -o StrictHostKeyChecking=no ${user}@${host} "ls -lrt ${glob}")
 files=$(echo ${files} | awk '/^\-/{print $(NF)}')
 
-if [ ! -z "${version}" ]; then
+if [[ $version != null ]]; then
 	numfiles=$(echo ${files} | wc -l | xargs)
 	files=$(echo ${files} | grep -A ${numfiles} "^${version}$" | tail -n +1)
 fi
 
 json="[]"
-for file in $(echo $files | awk '/^\-/{print $(NF)}'); do
+for file in $(echo $files); do
 	json=$(echo $json | jq -r ". |= .+ [{ path: \"$file\"}]")
 done
 
