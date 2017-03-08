@@ -1,5 +1,7 @@
 input_json=$(</dev/stdin)
 
+echo "${input_json}" > /tmp/stdin
+
 host=$(echo ${input_json} | jq -r '.source.host')
 user=$(echo ${input_json} | jq -r '.source.user')
 pkey="$(echo ${input_json} | jq -r '.source.private_key')"
