@@ -8,7 +8,7 @@ json="[]"
 IFS=$'\n'
 for file in $(echo "$files"); do
 	file=$(basename $file)
-	json=$(echo $json | jq --arg file $file -r '. |= .+ [{ path: "$file"}]')
+	json=$(echo $json | jq --arg file $file -r '. |= .+ [{ path: $file}]')
 done
 
 echo "${json}"
