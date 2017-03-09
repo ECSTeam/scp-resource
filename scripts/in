@@ -8,9 +8,9 @@ cd $outdir
 files=$(get_latest_files "${user}" "${host}" "${glob}" "${version}" "${basedir}")
 
 IFS=$'\n'
-for file in $(echo "$files"); do
+for file in $(output "$files"); do
 	file=$(basename ${file})
 	scp -o StrictHostKeyChecking=no ${user}@${host}:${basedir}/${file} .
 done
 
-echo "{}" | jq --arg path ${file} '. |= .+ {version:{path: $path}, metadata:[]}'
+output "{}" | jq --arg path ${file} '. |= .+ {version:{path: $path}, metadata:[]}'
