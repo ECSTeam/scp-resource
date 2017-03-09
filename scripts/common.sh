@@ -46,7 +46,7 @@ function init_ssh_auth() {
 	is_good=$?
 
 	if [[ ${is_good} != 0 ]]; then
-		log "Private key file is corrupt!"
+		echo "Private key file is corrupt!"
 		exit ${is_good}
 	fi
 
