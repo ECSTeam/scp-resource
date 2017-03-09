@@ -34,9 +34,9 @@ function initialize() {
 function init_ssh_auth() {
 	local pkey=$1
 	keyfile=$(mktemp)
-	
+
 	pkey=$(echo "${pkey}" | sed -e 's/-----BEGIN RSA PRIVATE KEY----- \(.*\) -----END RSA PRIVATE KEY-----/\1/' | tr ' ' '\n')
-	echo "-----BEGIN RSA PRIVATE KEY-----" >> ${keyfile}
+	echo "-----BEGIN RSA PRIVATE KEY-----" > ${keyfile}
 	echo "${pkey}" >> ${keyfile}
 	echo "-----END RSA PRIVATE KEY-----" >> ${keyfile}
 	chmod 600 ${keyfile}
@@ -66,7 +66,10 @@ function get_latest_files() {
 	if [[ $version != null ]]; then
 		version=$(basename ${version})
 		numfiles=$(echo "${files}" | wc -l | xargs)
-		files=$(echo "${files}" | grep -A ${numfiles} ".*${version}$" | tail -n +2)
+		files=$(echo "${files}" | grep -A ${numfiles} ".*${version}$")
+		newnum=$(echo "${files}" | wc -l | xargs)
+		[[ ${newnum} > 1 ]] && clip=2 || clip=1
+		files=$(echo "${files}" | tail -n +${clip})
 	else
 		files=$(echo "${files}" | tail -n -1)
 	fi
