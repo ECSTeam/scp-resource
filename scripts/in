@@ -10,7 +10,7 @@ files=$(get_latest_files "${user}" "${host}" "${glob}" "${version}" "${basedir}"
 IFS=$'\n'
 for file in $(echo "$files"); do
 	file=$(basename ${file})
-	scp -o StrictHostKeyChecking=no ${user}@${host}:${basedir}/${file} .
+	scp -o StrictHostKeyChecking=no ${user}@${host}:${basedir}/${file} . >&2
 done
 
 echo "{}" | jq --arg path ${file} '. |= .+ {version:{path: $path}, metadata:[]}'

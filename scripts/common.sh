@@ -1,5 +1,5 @@
 function log() {
-	echo "$@" 1>&2
+	echo "$@" >&2
 }
 
 function initialize() {
