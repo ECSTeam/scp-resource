@@ -4,7 +4,7 @@ source /opt/resource/common.sh
 
 files=$(get_latest_files "${user}" "${host}" "${glob}" "${version}" "${basedir}")
 
-latest_file=$(output "${files}" | head -n 1)
-json=$(output "[]" | jq --arg file $(basename ${latest_file}) -r '. |= .+ [{ path: $file}]')
+latest_file=$(echo "${files}" | head -n 1)
+json=$(echo "[]" | jq --arg file $(basename ${latest_file}) -r '. |= .+ [{ path: $file}]')
 
-output "${json}"
+echo "${json}"
