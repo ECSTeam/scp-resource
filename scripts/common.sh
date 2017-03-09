@@ -65,7 +65,7 @@ function get_latest_files() {
 
 	if [[ $version != null ]]; then
 		version=$(basename ${version})
-		grepcheck=" ${basedir}/${version}$"
+		grepcheck="^${basedir}/${version}$"
 
 		numfiles=$(echo "${files}" | wc -l | xargs)
 		files=$(echo "${files}" | grep -A ${numfiles} "${grepcheck}")

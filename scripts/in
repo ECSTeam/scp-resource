@@ -8,7 +8,7 @@ cd $outdir
 files=$(get_latest_files "${user}" "${host}" "${glob}" "${version}" "${basedir}")
 
 IFS=$'\n'
-for file in $(echo $files); do
+for file in $(echo "$files"); do
 	file=$(basename ${file})
 	scp -o StrictHostKeyChecking=no ${user}@${host}:${basedir}/${file} .
 done
