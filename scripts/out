@@ -9,7 +9,7 @@ cd ${workdir}
 glob=$(echo ${input_json} | jq -r '.params.glob')
 dest=$(echo ${input_json} | jq -r '.params.destdir')
 
-latest_file=$(ls -l ${glob} | awk '/^\-/{print $(NF)}' | head -n1)
+latest_file=$(ls -lt ${glob} | awk '/^\-/{print $(NF)}' | head -n1)
 
 scp -o StrictHostKeyChecking=no ${glob} ${user}@${host}:${dest}/
 

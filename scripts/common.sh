@@ -65,13 +65,12 @@ function get_latest_files() {
 
 	if [[ $version != null ]]; then
 		version=$(basename ${version})
+		grepcheck=" ${basedir}/${version}$"
+
 		numfiles=$(echo "${files}" | wc -l | xargs)
-		files=$(echo "${files}" | grep -A ${numfiles} ".*${version}$")
-		newnum=$(echo "${files}" | wc -l | xargs)
-		[[ ${newnum} > 1 ]] && clip=2 || clip=1
-		files=$(echo "${files}" | tail -n +${clip})
+		files=$(echo "${files}" | grep -A ${numfiles} "${grepcheck}")
 	else
-		files=$(echo "${files}" | tail -n -1)
+		files=$(echo "${files}" | head -n 1)
 	fi
 
 	echo "${files}"
