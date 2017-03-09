@@ -13,4 +13,5 @@ latest_file=$(ls -l ${glob} | awk '/^\-/{print $(NF)}' | head -n1)
 
 scp -o StrictHostKeyChecking=no ${glob} ${user}@${host}:${dest}/
 
+latest_file=$(basename ${latest_file})
 echo "{}" | jq --arg latest ${latest_file} '. |= .+ {version:{path:$latest}, metadata:[]}'

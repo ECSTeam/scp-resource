@@ -2,21 +2,13 @@
 
 source /opt/resource/common.sh
 
-files=$(ssh -o StrictHostKeyChecking=no ${user}@${host} "ls -lrt ${glob}")
-files=$(echo "${files}" | awk '/^\-/{print $(NF)}')
-
-if [[ $version != null ]]; then
-	version=$(basename ${version})
-	numfiles=$(echo "${files}" | wc -l | xargs)
-	files=$(echo "${files}" | grep -A ${numfiles} ".*${version}$" | tail -n +2)
-else
-	files=$(echo "${files}" | tail -n -1)
-fi
+files=$(get_latest_files "${user}" "${host}" "${glob}" "${version}" "${basedir}")
 
 json="[]"
 IFS=$'\n'
 for file in $(echo "$files"); do
-	json=$(echo $json | jq -r ". |= .+ [{ path: \"$file\"}]")
+	file=$(basename $file)
+	json=$(echo $json | jq --arg file $file -r '. |= .+ [{ path: "$file"}]')
 done
 
 echo "${json}"

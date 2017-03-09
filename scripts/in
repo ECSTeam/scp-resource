@@ -3,9 +3,14 @@
 source /opt/resource/common.sh
 
 outdir=$1
-
 cd $outdir
 
-scp -o StrictHostKeyChecking=no ${user}@${host}:${version} .
+files=$(get_latest_files "${user}" "${host}" "${glob}" "${version}" "${basedir}")
 
-echo "{}" | jq --arg path ${version} '. |= .+ {version:{path: $path}, metadata:[]}'
+IFS=$'\n'
+for file in $(echo $files); do
+	file=$(basename ${file})
+	scp -o StrictHostKeyChecking=no ${user}@${host}:${basedir}/${file} .
+done
+
+echo "{}" | jq --arg path ${file} '. |= .+ {version:{path: $path}, metadata:[]}'
